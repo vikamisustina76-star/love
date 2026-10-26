@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffb6d0">
+<title>Давай встречаться? 💗</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;min-height:100svh;display:grid;place-items:center;padding:18px;overflow:hidden;font-family:system-ui,sans-serif;color:#713b53;background:linear-gradient(135deg,#ffe5ef,#ffb6d0)}
+.card{width:100%;max-width:420px;text-align:center;padding:32px 22px;background:#fff9fc;border:2px solid white;border-radius:28px;box-shadow:0 15px 45px #d95d8a35}
+.heart{font-size:70px;animation:beat 1.1s infinite}
+h1{font-size:clamp(28px,7vw,36px);margin:14px 0}
+p{line-height:1.6;color:#9b6b80}
+.buttons{display:flex;justify-content:center;align-items:center;gap:14px;min-height:58px}
+button{border:0;border-radius:30px;padding:14px 25px;font-size:18px;font-weight:750;cursor:pointer}
+#yes{background:#ff69a0;color:white}#yes:hover{background:#eb4d8a}
+#no{background:#ffe1ed;color:#87445f}
+#result{display:none;color:#ed4d91;font-size:21px}#result.show{display:block;animation:pop .3s ease}
+@keyframes beat{0%,100%{transform:scale(1)}50%{transform:scale(1.13)}}
+@keyframes pop{from{transform:scale(.7);opacity:0}to{transform:scale(1);opacity:1}}
+</style>
+</head>
+<body>
+<main class="card">
+<div class="heart" aria-hidden="true">💗</div>
+<h1>Давай встречаться?</h1>
+<p>Ты мне очень нравишься…<br>Будешь моей парой? 🥺</p>
+<div class="buttons" id="buttons">
+<button id="yes" type="button">Да 💕</button>
+<button id="no" type="button">Нет 🙈</button>
+</div>
+<h2 id="result" role="status">Урааа! 💖✨</h2>
+<p id="hint">Попробуй ответить честно 💌</p>
+</main>
+<script>
+const no=document.querySelector('#no'),yes=document.querySelector('#yes'),hint=document.querySelector('#hint');
+function runAway(){
+ const w=no.offsetWidth,h=no.offsetHeight,m=10;
+ no.style.position='fixed';
+ no.style.left=Math.round(m+Math.random()*Math.max(0,innerWidth-w-2*m))+'px';
+ no.style.top=Math.round(m+Math.random()*Math.max(0,innerHeight-h-2*m))+'px';
+ no.style.zIndex='10';hint.textContent='Хи-хи, не поймаешь! 😜';
+}
+no.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse')runAway()});
+no.addEventListener('touchstart',e=>{e.preventDefault();runAway()},{passive:false});
+no.addEventListener('click',runAway);
+yes.addEventListener('click',()=>{
+ document.querySelector('#result').classList.add('show');
+ document.querySelector('#buttons').style.display='none';
+ hint.textContent='Ты сделал(а) этот день особенным 💘';
+ for(let i=0;i<25;i++)setTimeout(()=>{
+  const s=document.createElement('span');
+  s.textContent=['💗','💖','💕','✨'][Math.floor(Math.random()*4)];
+  Object.assign(s.style,{position:'fixed',left:Math.random()*95+'vw',top:Math.random()*90+'vh',fontSize:'28px',pointerEvents:'none'});
+  document.body.appendChild(s);setTimeout(()=>s.remove(),1800);
+ },i*60);
+});
+</script>
+</body>
+</html>
